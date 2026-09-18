@@ -1,5 +1,5 @@
 <div align="center">
-<img width="1200" height="475" alt="SafeScan Banner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+<img width="1200" height="475" alt="SafeScan Banner" .png" />
 </div>
 
 # SafeScan: Professional Document & ID Scanner
@@ -31,25 +31,4 @@
 
 - **Native Core**: Kotlin, Jetpack Compose
 - **AI/ML**: Google ML Kit (Document Scanner, Text Recognition)
-- **Image Processing**: OpenCV pipeline
-
-## 🚀 Installation & Running
-
-**Prerequisites**: Node.js
-
-1. **Install dependencies**: `npm install`
-2. **Configuration**: Set the `GEMINI_API_KEY` in `.env.local`.
-3. **Run Web**: `npm run dev`
-
-## 📱 Building Android
-
-### Capacitor (Web-to-App)
-1. `npm run build`
-2. `npx cap sync android`
-3. `npx cap open android`
-
-### React Capacitor Compose
-Use the dedicated CI/CD workflow defined in `.github/workflows/react_capacitor.yml`.
-
-### Native Kotlin/Compose
-Use the dedicated CI/CD workflow defined in `.github/workflows/android.yml`
+- **Image Processing**: OpenCV pipeline.
