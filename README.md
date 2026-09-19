@@ -1,5 +1,5 @@
 <div align="center">
-<img width="1200" height="475" alt="SafeScan Banner" .png" />
+<img width="1200" height="475" alt="SafeScan Banner" src="banner.png" />
 </div>
 
 # SafeScan: Professional Document & ID Scanner
@@ -32,3 +32,17 @@
 - **Native Core**: Kotlin, Jetpack Compose
 - **AI/ML**: Google ML Kit (Document Scanner, Text Recognition)
 - **Image Processing**: OpenCV pipeline.
+
+## 🙏 Credits & Acknowledgement
+
+This project makes use of the following open-source work:
+
+- **Segmentation Model**: [fairscan-segmentation-model](https://github.com/pynicolas/fairscan-segmentation-model) by [pynicolas](https://github.com/pynicolas).
+    - Model Architecture: DeepLabV3Plus with MobileNet v2 encoder (Dice score > 0.94)【40780468796429428†L14-L18】
+    - Licensed under GNU GPLv3【40780468796429428†L54-L58】
+
+We thank the FairScan team for providing a lightweight, high-accuracy document segmentation model for mobile.
+
+## 📄 License
+
+This repository is released under the GNU GPLv3 license. See LICENSE for details.
