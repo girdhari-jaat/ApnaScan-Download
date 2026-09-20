@@ -6,7 +6,7 @@
 
 **SafeScan** is a high-performance, secure mobile document scanning solution engineered for precision and efficiency. Whether you need to digitize physical documents, capture ID cards, or organize complex multi-page scans, SafeScan provides an intuitive, professional-grade toolkit right in your pocket.
 
-**Live Preview**: [View in AI Studio](https://safescan-361361801174.asia-southeast1.run.app)
+**Live Preview of React App**: [View in AI Studio](https://safescan-361361801174.asia-southeast1.run.app)
 
 ## 🌟 Key Features
 
@@ -35,11 +35,11 @@
 
 ## 🙏 Credits & Acknowledgement
 
-This project makes use of the following open-source work:
+This project makes use of the following open-source work for documents segmentation:
 
 - **Segmentation Model**: [fairscan-segmentation-model](https://github.com/pynicolas/fairscan-segmentation-model) by [pynicolas](https://github.com/pynicolas).
-    - Model Architecture: DeepLabV3Plus with MobileNet v2 encoder (Dice score > 0.94)【40780468796429428†L14-L18】
-    - Licensed under GNU GPLv3【40780468796429428†L54-L58】
+    - Model Architecture: DeepLabV3Plus with MobileNet v2 encoder (Dice score > 0.94)
+    - Licensed under GNU GPLv3
 
 We thank the FairScan team for providing a lightweight, high-accuracy document segmentation model for mobile.
 
