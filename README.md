@@ -6,7 +6,7 @@
 
 **ApnaScan** is a high-performance, secure mobile document scanning solution engineered for precision and efficiency. Whether you need to digitize physical documents, capture ID cards, or organize complex multi-page scans, SafeScan provides an intuitive, professional-grade toolkit right in your pocket.
 
-**Live Preview of React App**: [View in AI Studio](https://safescan-361361801174.asia-southeast1.run.app)
+**Live Preview of React App**: [View in AI Studio](https://apnascan.ai.studio)
 
 ## 🌟 Key Features
 
