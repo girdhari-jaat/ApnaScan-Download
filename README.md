@@ -11,10 +11,8 @@
 ## 🌟 Key Features
 
 ### 📷 Intelligent Scanning
-- **Native ML Kit Integration**: Utilizes Google ML Kit Document Scanner for fast, accurate edge detection and auto-cropping.
+- **Native ML Kit Integration**: Optional Google ML Kit Document Scanner for fast, accurate edge detection and auto-cropping.
 - **Multiple Capture Modes**: Specialized workflows for **Documents**, **ID Cards** captures.
-- **Smart Flash/Torch**: Intelligent flash management (Off, Auto, Torch) to ensure perfect lighting.
-- **Real-time Guidance**: Live viewfinder grid-lines for perfect composition and alignment.
 
 ### 🎨 Advanced Editing Studio
 - **Precise Crop & Rotate**: Manual or auto-detect edge adjustment, with rotation controls.
@@ -30,12 +28,12 @@
 ## 🛠️ Tech Stack
 
 - **Native Core**: Kotlin, Jetpack Compose
-- **AI/ML**: Google ML Kit (Document Scanner, Text Recognition)
+- **AI/ML**: TensorFlow Lite and Google ML Kit (Document Scanner)
 - **Image Processing**: OpenCV pipeline.
 
 ## 🙏 Credits & Acknowledgement
 
-This project makes use of the following open-source work for documents segmentation:
+This project also use of the following open-source work for documents segmentation:
 
 - **Segmentation Model**: [fairscan-segmentation-model](https://github.com/pynicolas/fairscan-segmentation-model) by [pynicolas](https://github.com/pynicolas).
     - Model Architecture: DeepLabV3Plus with MobileNet v2 encoder (Dice score > 0.94)
