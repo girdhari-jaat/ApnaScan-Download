@@ -35,12 +35,6 @@
 
 This project also use of the following open-source work for documents segmentation:
 
-- **Segmentation Model**: [fairscan-segmentation-model](https://github.com/pynicolas/fairscan-segmentation-model) by [pynicolas](https://github.com/pynicolas).
-    - Model Architecture: DeepLabV3Plus with MobileNet v2 encoder (Dice score > 0.94)
-    - Licensed under GNU GPLv3
-
-We thank the FairScan team for providing a lightweight, high-accuracy document segmentation model for mobile.
-
 ## 📄 License
 
-This repository is released under the GNU GPLv3 license. See LICENSE for details.
+This repository is released under the ** license. See LICENSE for details.
