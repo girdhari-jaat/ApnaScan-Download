@@ -25,6 +25,17 @@
 - **Batch Processing**: Handle multiple pages seamlessly (up to 50 pages for document mode).
 - **High-Performance Architecture**: Zero-copy pixel pipeline utilizing for lightning-fast responsiveness.
 
+## ✍️ Professional Annotation Studio
+Powerful on-device markup toolkit for signing and highlighting documents:
+
+* **Pen & Signature:** Precise free-hand drawing with pressure-sensitive stroke and dedicated Signature mode for signing documents.
+* **Brush & Highlighter:** Soft brush and marker tools with adjustable size (2f..50f) and opacity for highlighting.
+* **Eraser:** Pixel-perfect eraser to remove only annotation layers without affecting original scan.
+* **Text Box:** Add customizable text annotations with font style, color, and positioning.
+* **Undo / Redo & Clear All:** Full history support with quick Undo, Redo, and one-tap Clear All Annotations.
+* **Watermark:** Add custom text or logo watermark for document protection and branding.
+* **Color Palette & Eyedropper:** 8 professional colors + eyedropper tool to pick any color from the document
+
 ## 🛠️ Tech Stack
 
 - **Native Core**: Kotlin, Jetpack Compose
