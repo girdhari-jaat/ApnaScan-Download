@@ -33,8 +33,8 @@
 
 ## 🙏 Credits & Acknowledgement
 
-This project also use of the following open-source work for documents segmentation:
+This app uses open-source libraries under their own permissive licenses (Apache 2.0, MIT, BSD). Their terms apply independently to those components.
 
 ## 📄 License
 
-This repository is released under the ** license. See LICENSE for details.
+Copyright (c) 2026 ApnaScan. All Rights Reserved.
