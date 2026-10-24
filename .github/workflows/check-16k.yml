@@ -1,1 +1,108 @@
+name: Check 16KB Native Libraries in APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-so-alignment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check for APK file
+        run: |
+          if [ ! -f "SafeScan.apk" ]; then
+            echo "❌ Error: SafeScan.apk repository ke root par nahi mili!"
+            exit 1
+          fi
+          echo "✅ SafeScan.apk mil gayi hai."
+
+      - name: Unzip APK and Verify .so ELF Alignment
+        run: |
+          echo "📂 Unzipping SafeScan.apk..."
+          mkdir -p extracted_apk
+          unzip -q SafeScan.apk -d extracted_apk
+
+          echo "🔍 Checking all .so files for 16KB page size alignment..."
+          
+          python3 - << 'EOF'
+          import os
+          import struct
+
+          apk_dir = "extracted_apk"
+          failed_files = []
+          total_checked = 0
+
+          def check_elf_alignment(file_path):
+              with open(file_path, "rb") as f:
+                  ident = f.read(16)
+                  if len(ident) < 4 or ident[:4] != b'\x7fELF':
+                      return True, "Not an ELF file"
+
+                  ei_class = ident[4] # 1 for 32-bit, 2 for 64-bit
+                  
+                  f.seek(0)
+                  if ei_class == 2: # 64-bit
+                      header = f.read(64)
+                      e_phoff = struct.unpack("<Q", header[32:40])[0]
+                      e_phentsize = struct.unpack("<H", header[54:56])[0]
+                      e_phnum = struct.unpack("<H", header[56:58])[0]
+                      
+                      f.seek(e_phoff)
+                      for i in range(e_phnum):
+                          p_header = f.read(e_phentsize)
+                          p_type = struct.unpack("<I", p_header[0:4])[0]
+                          if p_type == 1: # PT_LOAD
+                              p_align = struct.unpack("<Q", header_align := p_header[48:56])[0] if len(p_header) >= 56 else 0
+                              # Alternative clean unpack for p_align:
+                              p_align = struct.unpack("<Q", p_header[48:56])[0]
+                              if p_align < 16384:
+                                  return False, p_align
+                  elif ei_class == 1: # 32-bit
+                      header = f.read(52)
+                      e_phoff = struct.unpack("<I", header[28:32])[0]
+                      e_phentsize = struct.unpack("<H", header[42:44])[0]
+                      e_phnum = struct.unpack("<H", header[44:46])[0]
+                      
+                      f.seek(e_phoff)
+                      for i in range(e_phnum):
+                          p_header = f.read(e_phentsize)
+                          p_type = struct.unpack("<I", p_header[0:4])[0]
+                          if p_type == 1: # PT_LOAD
+                              p_align = struct.unpack("<I", p_header[28:32])[0]
+                              if p_align < 16384:
+                                  return False, p_align
+              return True, "Passed"
+
+          lib_path = os.path.join(apk_dir, "lib")
+          if not os.path.exists(lib_path):
+              print("⚠️ Warning: APK ke andar 'lib' folder nahi mila.")
+          else:
+              for root, dirs, files in os.walk(lib_path):
+                  for file in files:
+                      if file.endswith(".so"):
+                          total_checked += 1
+                          full_path = os.path.join(root, file)
+                          rel_path = os.path.relpath(full_path, apk_dir)
+                          
+                          is_aligned, details = check_elf_alignment(full_path)
+                          if not is_aligned:
+                              print(f"❌ Non-compliant: {rel_path} (Alignment: {details})")
+                              failed_files.append((rel_path, details))
+                          else:
+                              print(f"✅ OK: {rel_path}")
+
+          print(f"\n================ SUMMARY ================")
+          print(f"Total .so files checked: {total_checked}")
+          if failed_files:
+              print(f"❌ Total non-16KB aligned files found: {len(failed_files)}")
+              print("List of failed files:")
+              for path, align in failed_files:
+                  print(f" - {path} (Alignment: {align})")
+              # Yahan script aakhir mein exit(1) karegi taake workflow red (fail) ho jaye
+              exit(1)
+          else:
+              print("🎉 Mubarak ho! Sabhi .so files 16KB page size compliant hain!")
+          EOF
 
