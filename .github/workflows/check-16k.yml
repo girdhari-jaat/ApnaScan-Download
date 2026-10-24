@@ -10,19 +10,27 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Check for APK file
+      - name: Find SafeScan.apk
+        id: find_apk
         run: |
-          if [ ! -f "SafeScan.apk" ]; then
-            echo "❌ Error: SafeScan.apk repository ke root par nahi mili!"
+          echo "🔍 Searching for SafeScan.apk in the repository..."
+          APK_FILE=$(find . -name "SafeScan.apk" | head -n 1)
+          
+          if [ -z "$APK_FILE" ]; then
+            echo "❌ Error: SafeScan.apk poori repository mein kahin nahi mili!"
+            echo "Tip: Yaa toh APK ko root par commit karein, ya workflow se pehle build step lagayein."
             exit 1
           fi
-          echo "✅ SafeScan.apk mil gayi hai."
+          
+          echo "✅ APK mil gayi hai: $APK_FILE"
+          echo "apk_path=$APK_FILE" >> $GITHUB_OUTPUT
 
       - name: Unzip APK and Verify .so ELF Alignment
         run: |
-          echo "📂 Unzipping SafeScan.apk..."
+          APK_PATH="${{ steps.find_apk.outputs.apk_path }}"
+          echo "📂 Unzipping $APK_PATH..."
           mkdir -p extracted_apk
-          unzip -q SafeScan.apk -d extracted_apk
+          unzip -q "$APK_PATH" -d extracted_apk
 
           echo "🔍 Checking all .so files for 16KB page size alignment..."
           
