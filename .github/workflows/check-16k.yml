@@ -10,14 +10,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Find SafeScan.apk
+      - name: Find ApnaScan.apk
         id: find_apk
         run: |
-          echo "🔍 Searching for SafeScan.apk in the repository..."
-          APK_FILE=$(find . -name "SafeScan.apk" | head -n 1)
+          echo "🔍 Searching for ApnaScan.apk in the repository..."
+          APK_FILE=$(find . -name "ApnaScan.apk" | head -n 1)
           
           if [ -z "$APK_FILE" ]; then
-            echo "❌ Error: SafeScan.apk poori repository mein kahin nahi mili!"
+            echo "❌ Error: ApnaScan.apk poori repository mein kahin nahi mili!"
             echo "Tip: Yaa toh APK ko root par commit karein, ya workflow se pehle build step lagayein."
             exit 1
           fi
