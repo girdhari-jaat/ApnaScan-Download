@@ -39,7 +39,7 @@ Powerful on-device markup toolkit for signing and highlighting documents:
 ## 🛠️ Tech Stack
 
 - **Native Core**: Kotlin, Jetpack Compose
-- **AI/ML**: TensorFlow Lite and Google ML Kit (Document Scanner)
+- **AI/ML**: LiteRT and Google ML Kit (Document Scanner)
 - **Image Processing**: OpenCV pipeline.
 
 ## 🙏 Credits & Acknowledgement
