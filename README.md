@@ -10,7 +10,7 @@ ApnaScan is a powerful, privacy-focused native Android document scanning applica
 
 Built with modern Android technologies, ApnaScan combines intelligent document scanning, advanced image processing, on-device machine learning, and professional annotation tools to deliver a fast and efficient scanning experience.
 
-<div align="center">"🚀 Live Preview" (https://apnascan.ai.studio)
+<div align="center">"🚀 Live Preview" https://apnascan.ai.studio
 
 </div>---
 
@@ -144,7 +144,7 @@ OpenCV 4.11.0
 - Stripped native binaries for reduced application size.
 - Image-processing pipeline for document enhancement.
 
-<text>OpenCV is included through local AAR files in the "app/libs" directory.</text>
+<text>OpenCV is included through local AAR " directory.</text>
 
 4. AI & Machine Learning
 
@@ -216,8 +216,6 @@ Compile SDK| 37
 Target SDK| 37
 Minimum SDK| 26 (Android 8.0)
 Build Tools| 37.0.0
-Version Code| 1
-Version Name| 1.0.0
 Java Compatibility| Java 17
 Kotlin JVM Target| JVM 17
 Native ABI| ARM64-v8a
@@ -241,41 +239,6 @@ The build configuration retains the following application resource locales:
 - Hindi ("hi")
 - Urdu ("ur")
 - Sindhi ("sd")
-
-Asset Optimization
-
-The following file formats are configured for uncompressed asset packaging:
-
-- TensorFlow Lite models (".tflite")
-- PDF files (".pdf")
-- Database files (".db")
-
----
-
-🔏 Release & Signing Configuration
-
-ApnaScan supports configurable release signing for local development and CI/CD environments.
-
-Supported signing configuration sources:
-
-1. "signing.properties" for local release builds.
-2. Environment variables for CI/CD signing.
-
-Supported environment variables:
-
-ANDROID_KEYSTORE_FILE
-ANDROID_KEYSTORE_PASSWORD
-ANDROID_KEY_ALIAS
-ANDROID_KEY_PASSWORD
-
-Release optimizations:
-
-- R8 code minification.
-- Resource shrinking.
-- Optimized ProGuard configuration.
-- V1, V2, V3 and V4 APK signing schemes.
-
-Security recommendation: Never commit keystore files, signing passwords, or private signing credentials to a public repository.
 
 ---
 
@@ -336,6 +299,6 @@ Your Documents. Your Privacy. Your Control.
 
 Scan • Enhance • Annotate • Export
 
-"🚀 Open Live Preview" (https://apnascan.ai.studio)
+"🚀 Open Live Preview" https://apnascan.ai.studio
 
 </div>
