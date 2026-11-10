@@ -16,13 +16,13 @@
 
 ### 🎨 Advanced Editing Studio
 - **Precise Crop & Rotate**: Manual or auto-detect edge adjustment, with rotation controls.
-- **Professional Filters**: Optimize scans with filters including **Original**, **Magic**, **Card**, **Paper**, **B&W**, and **Gray** mode.
-- **Manual Tuning**: Fine-tune **Brightness**, **Contrast**, and **Sharpness** to enhance document readability.
+- **Professional Filters**: Optimize scans with filters including **Original**, **Magic**, **Vivid**, **Card**, **Paper**, **B&W**, **B&W 2**, and **Gray** mode.
+- **Manual Tuning**: Fine-tune **Brightness**, **Contrast**, **Saturation** and **Sharpness** to enhance document readability.
 
 ### ⚙️ Powerful Workflow
 - **QR (QR/Barcode Recognition)**: Extract text/No: directly from scanned documents.
 - **Flexible Export**: Generate PDFs with configurable page settings.
-- **Batch Processing**: Handle multiple pages seamlessly (up to 50 pages for document mode).
+- **Batch Processing**: Handle multiple pages seamlessly.
 - **High-Performance Architecture**: Zero-copy pixel pipeline utilizing for lightning-fast responsiveness.
 
 ## ✍️ Professional Annotation Studio
@@ -41,6 +41,7 @@ Powerful on-device markup toolkit for signing and highlighting documents:
 - **Native Core**: Kotlin, Jetpack Compose
 - **AI/ML**: LiteRT and Google ML Kit (Document Scanner)
 - **Image Processing**: OpenCV pipeline.
+- ** ads-free, watermark-free, complete offline.
 
 ## 🙏 Credits & Acknowledgement
 
