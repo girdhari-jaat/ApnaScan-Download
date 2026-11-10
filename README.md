@@ -1,5 +1,5 @@
 <div align="center">
-<img width="1200" height="475" alt="ApnaScan Banner" src="./Banner.jpg" />
+<img width="1200" height="475" alt="ApnaScan Banner" src="./banner.png" />
 </div>
 
 📄 ApnaScan — Professional Document & ID Scanner
