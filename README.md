@@ -10,7 +10,7 @@
   [![UI Framework](https://img.shields.io/badge/UI-Jetpack%20Compose%20%2F%20Material%203-4285F4?logo=jetpackcompose&logoColor=white)](#architecture)
   [![Privacy](https://img.shields.io/badge/Privacy-100%25%20Offline%20%7C%20Zero%20Internet-green?logo=shield&logoColor=white)](#privacy--offline-first-experience)
   [![Kernel](https://img.shields.io/badge/Kernel-16KB%20Page--Aligned-orange?logo=linux&logoColor=white)](#high-performance-processing)
-  [![License](https://img.shields.io/badge/License-Apache%202.0%20%2F%20MIT-blue)](#license)
+  [![License](https://img.shields.io/badge/License-Proprietary-red)](#license))
 
   <p align="center">
     <a href="#-key-features">Key Features</a> •
