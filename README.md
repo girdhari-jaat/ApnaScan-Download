@@ -102,7 +102,7 @@ ApnaScan adheres to a strict performance, memory-safety, and battery-saver stand
 * **Dual-Layer Caching Engine**:
   * **Display Render Cache**: Processed screen thumbnails and previews are cached on disk. Opening an existing document fetches instant cached previews without re-running CPU-intensive image filters.
   * **PDF Hash Cache (`currentHash`)**: Document changes are fingerprinted. If a user exports an unmodified document twice, the compiled PDF is served instantly from cache.
-* **16KB Page-Size Compatibility: The application targets compatibility with Android devices using 16KB memory pages. Native libraries, including OpenCV and other packaged dependencies,meet the required ELF alignment and packaging requirements..
+* **16KB Page-Size Compatibility**: The application targets compatibility with Android devices using 16KB memory pages. Native libraries, including OpenCV and other packaged dependencies,meet the required ELF alignment and packaging requirements..
 * **Hardware Accelerated Offscreen Rendering**: Efficient Offscreen Rendering: Image composition, watermarking, and annotation rendering use native Android Canvas operations and bitmap processing with controlled memory management.
 Background Processing: Kotlin Coroutines and dedicated dispatchers keep computationally intensive image transformations and PDF generation away from the main UI thread.
 
