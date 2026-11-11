@@ -98,8 +98,9 @@ ApnaScan adheres to a strict performance, memory-safety, and battery-saver stand
 * **Dual-Layer Caching Engine**:
   * **Display Render Cache**: Processed screen thumbnails and previews are cached on disk. Opening an existing document fetches instant cached previews without re-running CPU-intensive image filters.
   * **PDF Hash Cache (`currentHash`)**: Document changes are fingerprinted. If a user exports an unmodified document twice, the compiled PDF is served instantly from cache.
-* **16KB Memory Page-Alignment**: Powered by Google AI Edge LiteRT (`2.3.0`), ensuring full forward compatibility with Android 15/16 16KB page-size Linux kernels for maximum memory throughput and reduced page faults.
-* **Hardware Accelerated Offscreen Rendering**: All composite rendering, watermarking, and annotation merging occur in memory buffers using native Android Canvas matrices and native recycling routines (`bitmap.recycle()`).
+* **16KB Page-Size Compatibility: The application targets compatibility with Android devices using 16KB memory pages. Native libraries, including OpenCV and other packaged dependencies,meet the required ELF alignment and packaging requirements..
+* **Hardware Accelerated Offscreen Rendering**: Efficient Offscreen Rendering: Image composition, watermarking, and annotation rendering use native Android Canvas operations and bitmap processing with controlled memory management.
+Background Processing: Kotlin Coroutines and dedicated dispatchers keep computationally intensive image transformations and PDF generation away from the main UI thread.
 
 ---
 
@@ -178,7 +179,9 @@ android/app/src/main/java/com/apnascan/
 
 ## 🔒 Privacy & Offline-First Experience
 
-* 🚫 **No Internet Permission**: `android.permission.INTERNET` is **NOT** present in `AndroidManifest.xml`. The app cannot connect to the internet, make HTTP requests, or leak data.
+Privacy is a core design principle of ApnaScan. The application is designed to keep scanned documents and core processing operations on the user's device.
+
+* 🚫 **No Application-Level Internet Permission**: `android.permission.INTERNET` is **NOT** present in `AndroidManifest.xml`. The app cannot connect to the internet, make HTTP requests, or leak data.
 * 🛡️ **Zero Analytics / Telemetry**: No Google Analytics, no Firebase Crashlytics, no Facebook SDK, and no background tracking daemons.
 * 📁 **Sandboxed Local Storage**: Scans are stored in private internal application storage (`Context.filesDir`). Other apps cannot access your scanned documents.
 * 🔐 **Hardware Sandboxing**: Camera access is used exclusively during active scanning sessions and is released immediately when switching screens or backgrounding the app.
@@ -246,16 +249,14 @@ Release builds have `isMinifyEnabled = true` and `isShrinkResources = true` enab
 ## 📄 License
 
 ```ApnaScan – User License & Terms
+ApnaScan is proprietary software.
 Copyright (c) 2026 ApnaScan. All Rights Reserved.
-By using ApnaScan, you agree to these terms:
-
-1. Free Use & Future Pricing: ApnaScan is currently free. The Author reserves the right to add paid features in future.
-
-2. Ownership: All source code and IP remains with the Author.
-
-3. Restrictions: No copying, modification, reverse engineering, distribution, or derivative works allowed.
-
-4. Disclaimer: Provided "AS IS" without warranty. Author not liable for damages.
+The application and its original source code, design, branding, and associated intellectual property are owned by the author.
+Terms of Use
+Free Use: ApnaScan is currently available free of charge. The author reserves the right to introduce paid features, subscriptions, or other pricing models in future versions.
+Ownership: All rights, title, and interest in ApnaScan and its original intellectual property remain with the author.
+Restrictions: Unauthorized copying, modification, redistribution, reverse engineering, or creation of derivative works is prohibited, except where expressly permitted by applicable law.
+Disclaimer: The software is provided "AS IS", without warranties of any kind, express or implied. The author shall not be liable for damages arising from its use to the extent permitted by applicable law.
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -264,4 +265,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-*Third-Party Libraries: OpenCV, TensorFlow/LiteRT, Google ML Kit, AndroidX, and Coil are licensed under their respective permissive open-source licenses.*
+*ApnaScan incorporates third-party libraries and technologies, including OpenCV, Google AI Edge LiteRT, Google ML Kit, AndroidX, and Coil.
+These components remain subject to their respective licenses and copyright notices. Their licenses are separate from the proprietary license governing ApnaScan's original application code.
+For applicable third-party license information, refer to the respective upstream projects and included license notices.*
+
+
+ApnaScan — Scan Smart. Stay Private.
+Fast • Secure • Offline-First • Lightweight • Ad-Free
