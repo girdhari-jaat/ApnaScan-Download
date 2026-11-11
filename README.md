@@ -1,7 +1,6 @@
 <div align="center">
 <img width="1200" height="475" alt="ApnaScan Banner" src="./banner.png" />
 </div>
-
   # ApnaScan: High-Performance Offline Document Scanner
 
   **Enterprise-grade, privacy-first mobile document scanner built with native Kotlin, Jetpack Compose, CameraX, Google AI Edge LiteRT, OpenCV, and ML Kit.**
