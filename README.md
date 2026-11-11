@@ -3,7 +3,7 @@
 
   # ApnaScan: High-Performance Offline Document Scanner
 
-  **Enterprise-grade, privacy-first mobile document scanner built with native Kotlin, Jetpack Compose, CameraX, Google AI Edge LiteRT, OpenCV, and ML Kit.**
+  **A fast, secure, and privacy-first Android document scanner built with native Kotlin, Jetpack Compose, CameraX, Google AI Edge LiteRT, OpenCV, and ML Kit.**
 
   [![Platform](https://img.shields.io/badge/Platform-Android%208.0%2B%20(API%2026--37)-3DDC84?logo=android&logoColor=white)](#build-configuration)
   [![Language](https://img.shields.io/badge/Language-Kotlin%202.x-7F52FF?logo=kotlin&logoColor=white)](#architecture)
@@ -28,9 +28,13 @@
 
 ## 📖 Overview
 
-**ApnaScan** is a modern, high-performance Android document scanner engineered for users and professionals who require uncompromising scan clarity, high execution speed, and absolute data privacy. 
+**ApnaScan** is a modern Android document scanning application designed for users who need fast, reliable, and high-quality document digitization without compromising their privacy.
 
-Unlike traditional scanning applications that upload user documents to remote cloud servers, ApnaScan runs **100% on-device**. The application requests **zero internet permissions**, embeds lightweight computer vision engines directly into the binary, and utilizes a zero-copy pixel pipeline for lightning-fast camera previews, edge detection, perspective warping, and PDF generation.
+Built with native Android technologies, ApnaScan combines intelligent camera capture, advanced image processing, non-destructive editing, QR and barcode recognition, and flexible PDF generation in one lightweight application.
+
+Unlike cloud-dependent scanning solutions, ApnaScan performs its core scanning, image processing, editing, and document management operations directly on the device.
+
+With no application-level Internet permission, documents remain stored locally within the application's private storage. Your scans stay under your control rather than being routinely uploaded to remote servers.
 
 ---
 
