@@ -49,14 +49,14 @@ With no application-level Internet permission, documents remain stored locally w
 * **Multiple Capture Modes**:
   * **DOCS Mode**: Automated document capture with aspect-ratio locking and edge snapping.
   * **ID Card Mode**: Specialized workflows for dual-sided identity cards (Front/Back) and single-sided cards with on-screen alignment guides.
-* **ML Kit Document Scanner**: Embedded Google ML Kit Document Scanner integration for auto-detection, edge detection, and real-time document boundary recognition.
-* **Batch Scanning**: Rapid multi-page capture supporting sessions of up to 50 pages with live slot management.
+* **ML Kit Document Scanner**: Google ML Kit Document Scanner integration, powered by Google Play services. Required components may be downloaded when first used.
+* **Batch Scanning**: Rapid multi-page capture supporting sessions of 50+ pages with live slot management.
 
 ### 🎨 2. Advanced Non-Destructive Editing Studio
 * **Magnetic Edge Cropping**: 4-point manual corner adjustment with magnified loupe preview and automatic boundary snapping.
-* **Lossless Rotation**: 90-degree rotational transformations without generational compression loss.
+* **Non-Destructive Rotation**: 90-degree rotations are stored as editing metadata without modifying the original captured image.
 * **Professional Color Filters**:
-  * **Original**: Preserves authentic raw sensor capture.
+  * **Original**: Preserves the original captured image without applying enhancement filters.
   * **Magic Color**: High-contrast color enhancement designed to pop text while preserving photo elements.
   * **Paper / Clean White**: Removes page shadows and yellow tints, rendering clean, bright paper backgrounds.
   * **Card / ID**: Optimized for ID card holograms, micro-print, and high-frequency patterns.
@@ -119,7 +119,7 @@ The PDF export engine provides deep configuration options to meet both personal 
 | **Resolution (DPI)** | `72 DPI` (Fast/Draft), `150 DPI` (Standard), `300 DPI` (Print Quality) | Generates crisp text at 300 DPI or compact file sizes for email at 72/150 DPI. |
 | **JPEG Quality** | `40%` to `95%` | Fine-grain compression control to target specific upload size limits. |
 | **Card Layouts** | `Grid` (2-up), `Stack` (Side-by-side) | Formats Front & Back of ID cards on a single clean page. |
-| **Security** | Password Protection (RC4) | Native PDF 1.4 encryption protects sensitive documents with user/owner passwords. |
+| **Security** | Password Protection (RC4-based PDF 1.4 encryption) | Native PDF 1.4 encryption protects sensitive documents with user/owner passwords. |
 | **Custom Watermark** | Any text / Unicode | Diagonally centered (-45°) with subtle ~18% opacity; keeps document content 100% legible. |
 | **Page Numbering** | `1 / N` Clean Footer | Smart positioning: on `Original` pages, dynamically appends an extra bottom strip so page numbers never overlap or obscure document text. |
 | **Actions** | Share, Save to Documents, Print | Direct Android share sheet, MediaStore public document storage, or direct printer dispatch via `PrintManager`. |
@@ -130,7 +130,7 @@ The PDF export engine provides deep configuration options to meet both personal 
 
 ApnaScan includes a built-in on-device markup and digital signature studio:
 
-* **Pen & Signature**: Free-hand vector drawing with pressure-sensitive width simulation. Quick access signature drawer for signing contracts, receipts, and forms.
+* **Pen & Signature**: Free-hand vector drawing with simulated pressure-based stroke width. Quick access signature drawer for signing contracts, receipts, and forms.
 * **Highlighter & Marker**: Translucent highlighting brush with customizable stroke widths (2dp to 50dp) and smooth alpha blending.
 * **Smart Eraser**: Erases annotation vectors and stroke paths only, leaving the underlying document image pristine.
 * **Text Annotation**: Insert typed labels, dates, and notes with customizable typography, sizing, and colors.
@@ -214,13 +214,13 @@ ApnaScan provides full multi-language localization with native Right-to-Left (RT
 * **Android Studio**: Ladybug / Meerkat or newer
 * **JDK**: Java 17 (Azul Zulu or OpenJDK recommended)
 * **Android SDK**: Compile SDK `37`, Target SDK `37`, Min SDK `26` (Android 8.0 Oreo)
-* **NDK**: Version `25.x+` (Default ABI filter: `arm64-v8a`)
+* **NDK**: Version `28.x+` (Default ABI filter: `arm64-v8a`)
 
 ### Build Steps
 
 #### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/ApnaScan.git
+git clone git clone https://github.com/girdhari-jaat/ApnaScan.git
 cd ApnaScan/android
 ```
 
@@ -262,11 +262,6 @@ Ownership: All rights, title, and interest in ApnaScan and its original intellec
 Restrictions: Unauthorized copying, modification, redistribution, reverse engineering, or creation of derivative works is prohibited, except where expressly permitted by applicable law.
 Disclaimer: The software is provided "AS IS", without warranties of any kind, express or implied. The author shall not be liable for damages arising from its use to the extent permitted by applicable law.
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
 ```
 
 *ApnaScan incorporates third-party libraries and technologies, including OpenCV, Google AI Edge LiteRT, Google ML Kit, AndroidX, and Coil.
