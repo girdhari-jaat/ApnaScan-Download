@@ -8,7 +8,7 @@
   [![Platform](https://img.shields.io/badge/Platform-Android%208.0%2B%20(API%2026--37)-3DDC84?logo=android&logoColor=white)](#build-configuration)
   [![Language](https://img.shields.io/badge/Language-Kotlin%202.x-7F52FF?logo=kotlin&logoColor=white)](#architecture)
   [![UI Framework](https://img.shields.io/badge/UI-Jetpack%20Compose%20%2F%20Material%203-4285F4?logo=jetpackcompose&logoColor=white)](#architecture)
-  [![Privacy](https://img.shields.io/badge/Privacy-100%25%20Offline%20%7C%20Zero%20Internet-green?logo=shield&logoColor=white)](#privacy--offline-first-experience)
+  [![Privacy](https://img.shields.io/badge/Privacy-Local%20First-green?logo=shield&logoColor=white)](#privacy--offline-first-experience)
   [![Kernel](https://img.shields.io/badge/Kernel-16KB%20Page--Aligned-orange?logo=linux&logoColor=white)](#high-performance-processing)
   [![License](https://img.shields.io/badge/License-Proprietary-red)](#license)
 
@@ -66,7 +66,7 @@ With no application-level Internet permission, documents remain stored locally w
 
 ### 🔍 3. QR & Barcode Recognition
 * **On-Device Vision**: Integrated lightweight Google Play Services ML Kit Barcode Scanning (~200KB overhead).
-* **Instant Extraction**: Scan barcodes and QR codes from existing scanned documents or live view with one-tap copy, share, and URL navigation.
+* **Instant Extraction**: Scan barcodes and QR codes from existing scanned documents with one-tap copy.
 
 ---
 
@@ -76,12 +76,12 @@ ApnaScan adheres to a strict performance, memory-safety, and battery-saver stand
 
 ```
 +-----------------------------------------------------------------------------------+
-|                            ZERO-COPY PIXEL PIPELINE                               |
+|                            Optimized On-Device Pixel Pipeline                               |
 +-----------------------------------------------------------------------------------+
   [ Camera / File Input ]
             |
             v
-  [ Sandbox Internal Storage ]  <--- (Original Raw Uncompressed Master File Saved)
+  [ Sandbox Internal Storage ]  <--- (Original Captured Image (Master File) Saved)
             |
             v
   [ Coroutine Dispatcher.IO ]   <--- (Off-Thread Perspective Warp & Filtering)
@@ -98,7 +98,7 @@ ApnaScan adheres to a strict performance, memory-safety, and battery-saver stand
 ```
 
 ### Architectural Highlights:
-* **Non-Destructive Metadata Architecture**: Original raw captures are stored untouched in sandboxed internal storage. All crops, rotations, filters, and annotations are maintained as immutable JSON metadata states. Edits can be adjusted or reverted at any point without degrading image quality.
+* **Non-Destructive Metadata Architecture**: Original Captured Image (Master File) are stored untouched in sandboxed internal storage. All crops, rotations, filters, and annotations are maintained as immutable JSON metadata states. Edits can be adjusted or reverted at any point without degrading image quality.
 * **Dual-Layer Caching Engine**:
   * **Display Render Cache**: Processed screen thumbnails and previews are cached on disk. Opening an existing document fetches instant cached previews without re-running CPU-intensive image filters.
   * **PDF Hash Cache (`currentHash`)**: Document changes are fingerprinted. If a user exports an unmodified document twice, the compiled PDF is served instantly from cache.
@@ -119,7 +119,7 @@ The PDF export engine provides deep configuration options to meet both personal 
 | **Resolution (DPI)** | `72 DPI` (Fast/Draft), `150 DPI` (Standard), `300 DPI` (Print Quality) | Generates crisp text at 300 DPI or compact file sizes for email at 72/150 DPI. |
 | **JPEG Quality** | `40%` to `95%` | Fine-grain compression control to target specific upload size limits. |
 | **Card Layouts** | `Grid` (2-up), `Stack` (Side-by-side) | Formats Front & Back of ID cards on a single clean page. |
-| **Security** | RC4 Password Encryption | Native PDF 1.4 encryption protects sensitive documents with user/owner passwords. |
+| **Security** | Password Protection (RC4) | Native PDF 1.4 encryption protects sensitive documents with user/owner passwords. |
 | **Custom Watermark** | Any text / Unicode | Diagonally centered (-45°) with subtle ~18% opacity; keeps document content 100% legible. |
 | **Page Numbering** | `1 / N` Clean Footer | Smart positioning: on `Original` pages, dynamically appends an extra bottom strip so page numbers never overlap or obscure document text. |
 | **Actions** | Share, Save to Documents, Print | Direct Android share sheet, MediaStore public document storage, or direct printer dispatch via `PrintManager`. |
