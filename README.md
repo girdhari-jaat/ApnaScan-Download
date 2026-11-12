@@ -1,6 +1,5 @@
 <div align="center">
   <img width="100%" alt="ApnaScan Banner" src="./banner.png" />
-
   # ApnaScan: High-Performance Offline Document Scanner
 
   **A fast, secure, and privacy-first Android document scanner built with native Kotlin, Jetpack Compose, CameraX, Google AI Edge LiteRT, OpenCV, and ML Kit.**
@@ -126,7 +125,9 @@ The PDF export engine provides deep configuration options to meet both personal 
 
 ---
 
-## ✍️ Annotation Studio
+<a id="annotation-studio"></a>
+<a id="-annotation-studio"></a>
+## ✍ Annotation Studio
 
 ApnaScan includes a built-in on-device markup and digital signature studio:
 
@@ -139,7 +140,9 @@ ApnaScan includes a built-in on-device markup and digital signature studio:
 
 ---
 
-## 🏗️ Architecture
+<a id="architecture"></a>
+<a id="-architecture"></a>
+## 🏗 Architecture
 
 ApnaScan is architected using Modern Android Development (MAD) best practices, following **Clean Architecture** and **Unidirectional Data Flow (UDF)**.
 
@@ -181,6 +184,10 @@ android/app/src/main/java/com/apnascan/
 
 ---
 
+<a id="privacy--offline-first-experience"></a>
+<a id="privacy-offline-first-experience"></a>
+<a id="-privacy--offline-first-experience"></a>
+<a id="-privacy-offline-first-experience"></a>
 ## 🔒 Privacy & Offline-First Experience
 
 Privacy is a core design principle of ApnaScan. The application is designed to keep scanned documents and core processing operations on the user's device.
@@ -208,13 +215,44 @@ ApnaScan provides full multi-language localization with native Right-to-Left (RT
 
 ---
 
-## 🛠️ Build Configuration
+<a id="build-configuration"></a>
+<a id="-build-configuration"></a>
+## 🛠 Build Configuration
 
 ### Prerequisites
 * **Android Studio**: Ladybug / Meerkat or newer
 * **JDK**: Java 17 (Azul Zulu or OpenJDK recommended)
 * **Android SDK**: Compile SDK `37`, Target SDK `37`, Min SDK `26` (Android 8.0 Oreo)
 * **NDK**: Version `28.x+` (Default ABI filter: `arm64-v8a`)
+
+### Build Steps
+
+#### 1. Clone the repository
+```bash
+git clone git clone https://github.com/girdhari-jaat/ApnaScan.git
+cd ApnaScan/android
+```
+
+#### 2. Assemble Debug APK
+```bash
+./gradlew assembleDebug
+```
+The debug APK will be generated at:
+`app/build/outputs/apk/debug/app-debug.apk`
+
+#### 3. Assemble Release APK / AAB
+To build an optimized release bundle signed with your keystore:
+```bash
+# Generate Release AAB (for Google Play Console)
+./gradlew :app:bundleRelease
+
+# Or Generate Release APK (for Direct Sideloading)
+./gradlew :app:assembleRelease
+```
+
+The output artifacts will be located at:
+* **AAB**: `app/build/outputs/bundle/release/app-release.aab`
+* **APK**: `app/build/outputs/apk/release/app-release.apk`
 
 ### ProGuard & Shrinking
 Release builds have `isMinifyEnabled = true` and `isShrinkResources = true` enabled with customized rules in `proguard-rules.pro` to preserve OpenCV JNI bindings, LiteRT runtimes, and ML Kit interfaces while stripping unused symbols and debug logs.
@@ -240,4 +278,5 @@ These components remain subject to their respective licenses and copyright notic
 For applicable third-party license information, refer to the respective upstream projects and included license notices.*
 
 
-ApnaScan — Scan Smart • Fast • Secure • Offline-First • Lightweight • Ad-Free
+ApnaScan — Scan Smart. Stay Private.
+Fast • Secure • Offline-First • Lightweight • Ad-Free
