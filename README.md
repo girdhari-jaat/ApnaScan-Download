@@ -225,35 +225,6 @@ ApnaScan provides full multi-language localization with native Right-to-Left (RT
 * **Android SDK**: Compile SDK `37`, Target SDK `37`, Min SDK `26` (Android 8.0 Oreo)
 * **NDK**: Version `28.x+` (Default ABI filter: `arm64-v8a`)
 
-### Build Steps
-
-#### 1. Clone the repository
-```bash
-git clone git clone https://github.com/girdhari-jaat/ApnaScan.git
-cd ApnaScan/android
-```
-
-#### 2. Assemble Debug APK
-```bash
-./gradlew assembleDebug
-```
-The debug APK will be generated at:
-`app/build/outputs/apk/debug/app-debug.apk`
-
-#### 3. Assemble Release APK / AAB
-To build an optimized release bundle signed with your keystore:
-```bash
-# Generate Release AAB (for Google Play Console)
-./gradlew :app:bundleRelease
-
-# Or Generate Release APK (for Direct Sideloading)
-./gradlew :app:assembleRelease
-```
-
-The output artifacts will be located at:
-* **AAB**: `app/build/outputs/bundle/release/app-release.aab`
-* **APK**: `app/build/outputs/apk/release/app-release.apk`
-
 ### ProGuard & Shrinking
 Release builds have `isMinifyEnabled = true` and `isShrinkResources = true` enabled with customized rules in `proguard-rules.pro` to preserve OpenCV JNI bindings, LiteRT runtimes, and ML Kit interfaces while stripping unused symbols and debug logs.
 
