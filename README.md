@@ -260,7 +260,7 @@ For applicable third-party license information, refer to the respective upstream
 
 <div align="center">
 
-# ApnaScan — Scan Smart. Stay Private.
+# ApnaScan — Stay Private.
 
 **Fast • Secure • Offline-First • Lightweight • Ad-Free**
 
