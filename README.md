@@ -1,6 +1,6 @@
 <div align="center">
   <img width="100%" alt="ApnaScan Banner" src="./banner.png" />
-   ApnaScan: High-Performance Offline Document Scanner
+  # ApnaScan: High-Performance Offline Document Scanner
 
   **A fast, secure, and privacy-first Android document scanner built with native Kotlin, Jetpack Compose, CameraX, Google AI Edge LiteRT, OpenCV, and ML Kit.**
 
@@ -40,27 +40,30 @@ With no application-level Internet permission, documents remain stored locally w
 ## 🌟 Key Features
 
 ### 📷 1. Intelligent Hardware Capture
-* **Native CameraX Engine**: Direct integration with Android's CameraX subsystem (`camera-camera2`, `camera-lifecycle`) providing hardware-negotiated resolution selection, continuous auto-focus, pinch-to-zoom, and torch controls.
-* **Dynamic Hardware Negotiation**:
-  * **HD (Fast)**: Optimized for ultra-low latency and quick multi-page snapping.
-  * **FHD (Standard)**: Balanced high-resolution capture for typical day-to-day scanning.
-  * **UHD (High)**: Maximum sensor resolution capture for fine text and legal documents.
+* **Native CameraX Engine**: Direct integration with Android's CameraX subsystem (`camera-camera2`, `camera-lifecycle`, `camera-extensions`) providing hardware-negotiated resolution selection (`PREVIEW` at `1440×1080`, `IMAGE_ANALYSIS` at `960×720`), continuous/tap auto-focus, pinch-to-zoom, and torch controls.
+* **Dynamic Hardware Negotiation (Saved Per Device)**:
+  * **HD (`Fast`)**: Optimized ~3 MP (`2048×1536`) capture for ultra-low latency and quick multi-page snapping.
+  * **FHD (`Standard`)**: Balanced ~5 MP (`2592×1944`) capture for typical day-to-day scanning.
+  * **UHD (`High`)**: High-clarity ~8 MP (`3264×2448`, strictly capped at 8 MP) capture for fine text and legal documents.
 * **Multiple Capture Modes**:
-  * **DOCS Mode**: Automated document capture with aspect-ratio locking and edge snapping.
-  * **ID Card Mode**: Specialized workflows for dual-sided identity cards (Front/Back) and single-sided cards with on-screen alignment guides.
+  * **Document Mode**: Automated document capture with live contour snapping and multi-page scanning.
+  * **Card Mode**: Specialized workflow for single or dual-sided identity cards (Front/Back) on Portrait A4 sheets with on-screen alignment guides.
 * **ML Kit Document Scanner**: Google ML Kit Document Scanner integration, powered by Google Play services. Required components may be downloaded when first used.
-* **Batch Scanning**: Rapid multi-page capture supporting sessions of 50+ pages with live slot management.
+* **Batch Scanning**: Rapid multi-page capture supporting multi-page document sessions with live slot management.
 
 ### 🎨 2. Advanced Non-Destructive Editing Studio
 * **Magnetic Edge Cropping**: 4-point manual corner adjustment with magnified loupe preview and automatic boundary snapping.
 * **Non-Destructive Rotation**: 90-degree rotations are stored as editing metadata without modifying the original captured image.
-* **Professional Color Filters**:
+* **9 Professional Image Filters**:
   * **Original**: Preserves the original captured image without applying enhancement filters.
-  * **Magic Color**: High-contrast color enhancement designed to pop text while preserving photo elements.
-  * **Paper / Clean White**: Removes page shadows and yellow tints, rendering clean, bright paper backgrounds.
-  * **Card / ID**: Optimized for ID card holograms, micro-print, and high-frequency patterns.
-  * **B&W (Binarization)**: High-precision Otsu thresholding for ultra-crisp, printer-ready monochrome text.
-  * **Grayscale**: Smooth 8-bit tonal reduction.
+  * **Magic**: High-contrast color enhancement designed to pop text while preserving photo elements.
+  * **Vivid**: Enhanced color saturation and crisp contrast for colorful documents.
+  * **Card**: Optimized for ID card holograms, micro-print, and high-frequency patterns.
+  * **Paper**: Removes page shadows and yellow tints, rendering clean, bright paper backgrounds.
+  * **B&W**: High-precision Otsu thresholding for crisp, printer-ready monochrome text.
+  * **B&W 2**: Refined adaptive monochrome contrast enhancement for clean document prints.
+  * **Gray**: Smooth 8-bit tonal grayscale reduction.
+  * **Gray 2**: Contrast-balanced grayscale optimized for faint text and pencil marks.
 * **Fine-Tuning Sliders**: Individual non-destructive adjustment for **Contrast**, **Brightness**, **Saturation**, and **Sharpness**.
 
 ### 🔍 3. QR & Barcode Recognition
@@ -80,7 +83,7 @@ ApnaScan adheres to a strict performance, memory-safety, and battery-saver stand
   [ Camera / File Input ]
             |
             v
-  [ Sandbox Internal Storage ]  <--- (Original Captured Image (Master File) Saved)
+  [ App-Specific Storage ]       <--- (Original Master Files & JSON Saved in ExternalFilesDir)
             |
             v
   [ Coroutine Dispatcher.IO ]   <--- (Off-Thread Perspective Warp & Filtering)
@@ -89,21 +92,21 @@ ApnaScan adheres to a strict performance, memory-safety, and battery-saver stand
   [ Non-Destructive JSON State ] <--- (Corners, Rotation, Sliders Stored as Metadata)
             |
             v
-  [ Display Cache (Indexed/File) ] <--- (Immediate UI Feedback, Zero Main-Thread Janks)
+  [ Display Cache (Disk/Memory) ] <--- (Immediate UI Feedback, Zero Main-Thread Janks)
             |
             v
-  [ Direct Stream PDF Output ]  <--- (Native In-Memory Assembly & Jpeg Compression)
+  [ Direct Stream PDF Output ]  <--- (Native Stream Assembly & JPEG Compression)
 +-----------------------------------------------------------------------------------+
 ```
 
 ### Architectural Highlights:
-* **Non-Destructive Metadata Architecture**: Original Captured Image (Master File) are stored untouched in sandboxed internal storage. All crops, rotations, filters, and annotations are maintained as immutable JSON metadata states. Edits can be adjusted or reverted at any point without degrading image quality.
+* **Non-Destructive Metadata Architecture**: Original captured master files are stored untouched in app-specific sandboxed storage (`Context.getExternalFilesDir("ScannedDocuments")`). All crops, rotations, filters, and annotations are maintained as JSON metadata states, so edits can be adjusted or reverted without degrading image quality.
 * **Dual-Layer Caching Engine**:
-  * **Display Render Cache**: Processed screen thumbnails and previews are cached on disk. Opening an existing document fetches instant cached previews without re-running CPU-intensive image filters.
-  * **PDF Hash Cache (`currentHash`)**: Document changes are fingerprinted. If a user exports an unmodified document twice, the compiled PDF is served instantly from cache.
-* **16KB Page-Size Compatibility**: The application targets compatibility with Android devices using 16KB memory pages. Native libraries, including OpenCV and other packaged dependencies,meet the required ELF alignment and packaging requirements..
-* **Hardware Accelerated Offscreen Rendering**: Efficient Offscreen Rendering: Image composition, watermarking, and annotation rendering use native Android Canvas operations and bitmap processing with controlled memory management.
-Background Processing: Kotlin Coroutines and dedicated dispatchers keep computationally intensive image transformations and PDF generation away from the main UI thread.
+  * **Display Render Cache**: Processed screen thumbnails and previews are cached on disk (`previews/` and `thumbs/`). Opening an existing document fetches cached previews without re-running CPU-intensive filters.
+  * **PDF Hash Cache (`currentHash`)**: Document edits and export parameters are fingerprinted. Exporting an unmodified document twice serves the compiled PDF directly from cache.
+* **16KB Page-Size Compatibility**: Native libraries, including OpenCV and LiteRT, are packaged uncompressed (`useLegacyPackaging = false`) and 16KB ELF page-aligned for modern Android devices.
+* **Hardware Accelerated Offscreen Rendering**: Image composition, watermarking, and annotation rendering use native Android `Canvas` operations and bounded bitmap management.
+* **Background Processing**: Kotlin Coroutines (`Dispatchers.IO` / `Dispatchers.Default`) keep computationally intensive image transformations and PDF generation away from the main UI thread.
 
 ---
 
@@ -113,15 +116,15 @@ The PDF export engine provides deep configuration options to meet both personal 
 
 | Configuration | Options Available | Details |
 | :--- | :--- | :--- |
-| **Page Sizes** | `Original`, `Auto`, `A4`, `Letter`, `Legal` | `Original` preserves exact 1:1 image geometry; standard sizes fit documents neatly into printable paper sheets. |
-| **Orientation** | `Portrait`, `Landscape`, `Auto` | Dynamically auto-detects page aspect ratios or enforces unified orientation. |
-| **Resolution (DPI)** | `72 DPI` (Fast/Draft), `150 DPI` (Standard), `300 DPI` (Print Quality) | Generates crisp text at 300 DPI or compact file sizes for email at 72/150 DPI. |
-| **JPEG Quality** | `40%` to `95%` | Fine-grain compression control to target specific upload size limits. |
-| **Card Layouts** | `Grid` (2-up), `Stack` (Side-by-side) | Formats Front & Back of ID cards on a single clean page. |
+| **Page Sizes** | `Original`, `Auto`, `A4`, `Letter`, `Legal` | `Original` preserves exact 1:1 image geometry; `Auto` picks the best-fitting standard size (`A4`, `Letter`, `Legal`) regardless of portrait or landscape orientation. |
+| **Orientation** | `Auto`, `Portrait`, `Landscape` | Dynamically follows page/scan aspect ratios or enforces unified orientation. |
+| **Resolution (DPI)** | `150 DPI` to `300 DPI` (`150`, `200`, `250`, `300`) | Generates crisp print-quality text at 300 DPI or compact files at 150 DPI. |
+| **JPEG Quality** | `60%` to `100%` | Adjustable compression slider (`60%`, `70%`, `80%`, `90%`, `100%`) to balance quality and file size. |
+| **Card Layouts** | `ID`, `2x4`, `Grid` | Formats Front & Back (`ID`), 4 repeated pairs (`2x4`), or sequential multi-card sheets (`Grid`) on Portrait A4 sheets. |
 | **Security** | Password Protection (RC4-based PDF 1.4 encryption) | Native PDF 1.4 encryption protects sensitive documents with user/owner passwords. |
-| **Custom Watermark** | Any text / Unicode | Diagonally centered (-45°) with subtle ~18% opacity; keeps document content 100% legible. |
-| **Page Numbering** | `1 / N` Clean Footer | Smart positioning: on `Original` pages, dynamically appends an extra bottom strip so page numbers never overlap or obscure document text. |
-| **Actions** | Share, Save to Documents, Print | Direct Android share sheet, MediaStore public document storage, or direct printer dispatch via `PrintManager`. |
+| **Custom Watermark** | Any text / Unicode | Diagonally centered (-45°) with subtle ~18% opacity; keeps document content legible. |
+| **Page Numbering** | `1 / N` Clean Footer | Smart positioning: on `Original` pages, dynamically appends an extra bottom strip so page numbers never overlap document text. |
+| **Actions** | Share, Save PDF / Export to Documents, Print | Android share sheet, `MediaStore` (`Documents/ApnaScan`), and system printing via `PrintManager`. |
 
 ---
 
@@ -131,10 +134,10 @@ The PDF export engine provides deep configuration options to meet both personal 
 
 ApnaScan includes a built-in on-device markup and digital signature studio:
 
-* **Pen & Signature**: Free-hand vector drawing with simulated pressure-based stroke width. Quick access signature drawer for signing contracts, receipts, and forms.
-* **Highlighter & Marker**: Translucent highlighting brush with customizable stroke widths (2dp to 50dp) and smooth alpha blending.
-* **Smart Eraser**: Erases annotation vectors and stroke paths only, leaving the underlying document image pristine.
-* **Text Annotation**: Insert typed labels, dates, and notes with customizable typography, sizing, and colors.
+* **Pen & Signature**: Free-hand vector drawing with adjustable stroke width (`2` to `50`) and opacity (`10%` to `100%`) for signing contracts, receipts, and forms.
+* **Brush & Highlighting**: Soft translucent brush/marker strokes with customizable size (`2` to `50`) and alpha blending.
+* **Smart Eraser**: Erases annotation vectors and stroke paths only, leaving the underlying document image untouched.
+* **Text Annotation (`TT`)**: Insert typed labels, dates, and notes with customizable sizing, opacity, and colors.
 * **Color Palette & Eyedropper**: 8 curated document markup colors plus an interactive eyedropper tool to pick any exact color from the document canvas.
 * **Undo / Redo History**: Complete stroke-by-stroke undo/redo stack and one-tap canvas clearing.
 
@@ -149,37 +152,43 @@ ApnaScan is architected using Modern Android Development (MAD) best practices, f
 ```
 android/app/src/main/java/com/apnascan/
 ├── ApnaScanApplication.kt          # Application class, Hilt dependency root
-├── MainActivity.kt                 # Single-activity container, Edge-to-Edge setup
-├── data/                           # Data layer (Entities, DataStore, Repositories)
+├── MainActivity.kt                 # Single-activity container, edge-to-edge setup
+├── OverlayView.kt                  # Custom camera contour & alignment guide overlay
+├── core/                           # Result wrappers, crash handler, DiagnosticsLogger
+├── data/                           # Repositories, DataStore, MediaStore, Annotation & Slot models
 │   ├── ScannerMode.kt              # Modes: DOCUMENT, CARD
 │   ├── Slot.kt                     # Document page model with bitmap/path references
-│   └── FilterType.kt               # Image filter definitions
-├── domain/                         # Business logic & Use Cases
-│   ├── ExportPdfUseCase.kt         # PDF compilation coordination
-│   ├── SaveDocumentUseCase.kt       # Document persistence & JSON metadata storage
-│   └── AnnotationManager.kt        # Vector stroke management and JSON serialization
-├── presentation/                   # UI Layer (Jetpack Compose, ViewModels)
-│   ├── scanner/                    # Camera capture, ScannerViewModel, ExportHelper
-│   ├── components/                 # Reusable Compose buttons, dialogs, sliders
-│   └── dialogs/                    # ExportModalDialog, SettingsDialog, AboutDialog
-├── ui/                             # Screens & Custom Layouts
-│   ├── CaptureScreen.kt            # Live camera view, shutter, and guide overlays
-│   ├── EditorScreen.kt             # Filter picker, tuning sliders, crop entry
-│   ├── CropScreen.kt               # 4-point magnetic corner perspective warp
+│   ├── FilterType.kt               # 9 document & card filter definitions
+│   └── AnnotationManager.kt        # Vector stroke management & JSON serialization
+├── di/                             # Hilt dependency injection modules
+├── domain/                         # Processing & PDF engine + UseCases
+│   ├── ImageProcessor.kt           # Perspective warp, Otsu B&W, color & card filter pipeline
+│   ├── PdfExporter.kt              # Native PDF stream generator & card sheet compositor
+│   ├── ExportHelper.kt             # Share intents, NativePdfWriter & RC4 PDF encryption
+│   └── usecase/                    # DetectEdgesUseCase, ExportPdfUseCase, SaveDocumentUseCase
+├── scanner/                        # ViewModel, state handlers & CV/AI detection engines
+│   ├── ScannerViewModel.kt         # StateFlow coordination across scanner/crop/editor flows
+│   ├── CameraHardwareConfig.kt     # Persistent camera hardware negotiation (<= 8 MP cap)
+│   ├── DocCornerNetEngine.kt       # On-device LiteRT neural corner segmentation
+│   └── CvContourQuadDetector.kt    # OpenCV contour & RANSAC quad detector
+├── ui/                             # Camera Fragment + Jetpack Compose screens & dialogs
+│   ├── ScannerFragment.kt          # CameraX lifecycle & PreviewView host
+│   ├── CropScreen.kt               # 4-point magnetic corner perspective warp + loupe
+│   ├── EditorScreen.kt             # Filter picker, tuning sliders, annotation studio
 │   ├── DocumentGrid.kt             # Multi-page overview, reordering, batch export
+│   ├── LibraryScreen.kt            # Saved documents library & search
+│   ├── ExportModalDialog.kt        # PDF export options dialog
+│   ├── SettingsScreen.kt           # App preferences & localization settings
 │   └── theme/                      # Material 3 Color Schemes, Typography, Shapes
-└── util/                           # Utilities & Native Bridges
-    ├── PdfExporter.kt              # High-performance native PDF stream generation
-    ├── OpenCVHelper.kt             # Native edge detection & perspective transformation
-    └── DiagnosticsLogger.kt        # Lightweight zero-allocation diagnostics logger
+└── utils/                          # PageConfig, LocalizationUtils, ShutterSoundPlayer, Haptics
 ```
 
 ### Core Technologies:
-* **Jetpack Compose & Material 3**: 100% declarative UI with edge-to-edge layout, responsive animations, and Day/Night dynamic color theming.
+* **Jetpack Compose & Material 3 (with CameraX Fragment)**: Declarative Compose UI for screens, dialogs, editor, and crop studio paired with a `Fragment`/`PreviewView` camera host, edge-to-edge layout, and Day/Night color theming.
 * **Dagger Hilt (`2.60.1`)**: Compile-time dependency injection across ViewModels, UseCases, and Repositories.
-* **Kotlin Coroutines & Flow**: Structured concurrency for all background processing, preventing main thread frame drops.
+* **Kotlin Coroutines & Flow**: Structured concurrency for background image processing and PDF export, preventing main-thread frame drops.
 * **OpenCV 4.11.0**: Tailored lightweight AAR stripped for `arm64-v8a` (~6MB) for contour identification and homography warping.
-* **Google AI Edge LiteRT (`2.3.0`)**: High-efficiency on-device AI runtime with 16KB page-alignment support.
+* **Google AI Edge LiteRT (`2.3.0`)**: High-efficiency on-device AI runtime (`assets/model_int8.tflite`) with 16KB page-alignment support.
 * **Coil 3 (`3.6.3`)**: Asynchronous, memory-cached image rendering in Compose.
 
 ---
@@ -194,7 +203,7 @@ Privacy is a core design principle of ApnaScan. The application is designed to k
 
 * 🚫 **No Application-Level Internet Permission**: `android.permission.INTERNET` is **NOT** present in `AndroidManifest.xml`. The app cannot connect to the internet, make HTTP requests, or leak data.
 * 🛡️ **Zero Analytics / Telemetry**: No Google Analytics, no Firebase Crashlytics, no Facebook SDK, and no background tracking daemons.
-* 📁 **Sandboxed Local Storage**: Scans are stored in private internal application storage (`Context.filesDir`). Other apps cannot access your scanned documents.
+* 📁 **App-Specific Sandboxed Storage**: Working scans and session files are stored in app-specific sandboxed storage (`Context.getExternalFilesDir`), keeping them isolated from other apps on modern Android while exported PDFs/JPGs are written only when you explicitly choose to save or share.
 * 🔐 **Hardware Sandboxing**: Camera access is used exclusively during active scanning sessions and is released immediately when switching screens or backgrounding the app.
 
 ---
@@ -249,5 +258,10 @@ These components remain subject to their respective licenses and copyright notic
 For applicable third-party license information, refer to the respective upstream projects and included license notices.*
 
 
-ApnaScan — Scan Smart. Stay Private.
-Fast • Secure • Offline-First • Lightweight • Ad-Free
+<div align="center">
+
+# ApnaScan — Scan Smart. Stay Private.
+
+**Fast • Secure • Offline-First • Lightweight • Ad-Free**
+
+</div>
